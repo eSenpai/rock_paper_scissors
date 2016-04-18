@@ -10,6 +10,7 @@ Made by Dominykas
 #include <string.h>         //For use in strcpy
 #include <stdbool.h>        //For use in checkSelection function
 
+//Prints the result, ie if the user losses, wins or it is a draw
 void printResult(int gamestate){
 	if(gamestate == 2){
 		printf("%s,\n", "Draw!");
@@ -22,9 +23,10 @@ void printResult(int gamestate){
 	}
 }
 
+//Compares the users guess with the computers selection and changes the gamestate
+//The gamestate sets if the player is going to win, lose or it is going to be a draw
 void checkSelection(char guess[], char selection[], int *gamestate){
 	if(strcmp(guess, "rock") == 0){
-		printf("%i\n", 1);
 		if(!strcmp(selection, "paper")){
 			*gamestate = 0;
 		}
@@ -61,6 +63,7 @@ void checkSelection(char guess[], char selection[], int *gamestate){
 	}
 }
 
+//Generates a computer selection
 void randomSelection(char selection[]){
 	srand(time(NULL));
 	int randNum = rand() % 3;
@@ -75,19 +78,19 @@ void randomSelection(char selection[]){
 }
 
 int main(void){
-	char guess[100];
-	char selection[100];
-	int gamestate = 0;
+	char guess[100];         //The users guess ie. (rock, paper, scissors)
+	char selection[100];     //The computers selection (rock, paper, scissors)
+	int gamestate = 0;       //Makes the user win, lose or the game is a draw
 	
 	printf("%s", "Type in: rock, paper or scissors.\n");
 	fgets(guess, 99, stdin);
+	guess[strlen(guess)-1] = '\0';      //Sets the last character as a null terminator, so it can be compared
 
-	randomSelection(selection);
+	randomSelection(selection);         //Gets a random selection for the computer
 	printf("%s %s %s %s\n", "Guess: ", guess, "Computer guess: ", selection);
 
-	checkSelection(guess, selection, &gamestate);
-	printf("%i\n", gamestate);
+	checkSelection(guess, selection, &gamestate);  //Checks who won or if it is a draw
 
-	printResult(gamestate);
+	printResult(gamestate);             //Prints the result
 	return 0;
 }
